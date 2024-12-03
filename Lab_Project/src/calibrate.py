@@ -51,7 +51,7 @@ def show_image(img, title='image'):
 
 
 def calibrate(imgs:list):
-    corners =  [cv2.findChessboardCorners(img, (8, 6)) for img in imgs]
+    corners =  [cv2.findChessboardCorners(img, (7, 7)) for img in imgs]
     valid_imgs = [img for img, corner in zip(imgs, corners) if corner[0]]
 
 
@@ -59,11 +59,11 @@ def calibrate(imgs:list):
     valid_corners = [corners[i][1] for i in range(len(corners)) if corners[i][0]]
     corners_copy = copy.deepcopy(valid_corners)
     criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 30, 0.01) # EPS + MAX_ITER, max 30 iterations, 0.01 accuracy(epsilon)
-    corners_refined = [cv2.cornerSubPix(i, cor, (8, 6), (-1, -1), criteria) for i, cor in zip(imgs_gray, corners_copy)]
+    corners_refined = [cv2.cornerSubPix(i, cor, (7, 7), (-1, -1), criteria) for i, cor in zip(imgs_gray, corners_copy)]
 
 
         
-    imgs_with_corners = [cv2.drawChessboardCorners(valid_imgs[i], (8, 6), corners_refined[i], True) for i in range(len(valid_imgs))]
+    imgs_with_corners = [cv2.drawChessboardCorners(valid_imgs[i], (7, 7), corners_refined[i], True) for i in range(len(valid_imgs))]
     for i in range(len(imgs_with_corners)):
         show_image(imgs_with_corners[i], f'image {i}')
         write_image(imgs_with_corners[i], f'calibration_images/image_corners_{i}.png')
@@ -73,4 +73,5 @@ def calibrate(imgs:list):
 
 if __name__ == "__main__":
     stream_video()
+    print(len(imgs, 'images'))
     calibrate(imgs)
