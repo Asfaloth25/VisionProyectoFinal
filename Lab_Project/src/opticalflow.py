@@ -66,7 +66,7 @@ def stream_video():
                 prev_gray = frame_gray.copy()  # Copy the current frame to the previous frame
                 p0 = good_new.reshape(-1, 1, 2)  # Update the points to track
         
-                frame_with_flow = cv2.add(input_frame, mask) - background_image
+                frame_with_flow = cv2.add(input_frame, mask)
 
                 # SPEED CHECK
                 optical_flow_points = np.array(good_new) - np.array(good_old)
@@ -109,7 +109,6 @@ def stream_video():
             qualityLevel = 0.3
             minDistance = 7
             blockSize = 7
-            mask = np.zeros_like(frame)
 
             # Use the function goodFeaturesToTrack to detect the points of interest
             p0 = cv2.goodFeaturesToTrack(prev_gray, mask=mask, maxCorners=maxCorners, qualityLevel=qualityLevel, minDistance=minDistance, blockSize=blockSize)
