@@ -52,7 +52,7 @@ if __name__ == "__main__":
         graph_data = graph_data[-100:]  # Keep the last 100 points
 
         # Draw graph on the image
-        img_with_graph = draw_graph_directly(img, graph_data, position=(10, 10), size=(150, 150))
+        img_with_graph = embed_graph_on_image(img, graph_data, position=(10, 10), size=(150, 150))
 
         # Display the result
         cv2.imshow("Real-Time Graph", img_with_graph)
