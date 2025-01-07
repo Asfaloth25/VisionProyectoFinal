@@ -24,6 +24,8 @@ def stream_video():
     i = 0
     recording = False
     frames = []
+    median_speeds = []
+    median_accelerations = []
     delta_time = time.time()
     fps = 10
     median_speed_new = [0,0]
@@ -61,12 +63,12 @@ def stream_video():
                 optical_flow_points = np.array(good_new) - np.array(good_old)
                 print(optical_flow_points)
                 sorted_flows = sorted(optical_flow_points, key = lambda x: sum(x**2)) # the speed of each point, sorted by euclidean distance to the origin (length)
-                median_speed_old = median_speed_new
-                median_speed_new = sorted_flows[len(sorted_flows)//2] # the median speed of the interest points
-                delta_speed = median_speed_new-median_speed_old
+                median_speeds.append(sorted_flows[len(sorted_flows)//2]) # the median speed of the interest points
+                median_accelerations.append(median_speeds[-1]-median_speeds[-2] if len(median_speeds) >= 2 else 0)
+
+                frame_with_flow = embed_graph_on_image(frame_with_flow, zip((i for i in range(len(frames))), median_speeds))
                 
 
-                print('Median:', median_speed_new)
         cv2.imshow("picam", frame if not recording else frame_with_flow)
         if cv2.waitKey(1) & 0xFF == ord('f'):
             cv2.imwrite(f'calibration_images/image_{i}.png', frame)
