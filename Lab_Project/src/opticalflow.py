@@ -69,7 +69,6 @@ def stream_video():
                 frame_with_flow = embed_graph_on_image(frame_with_flow, zip((i for i in range(len(frames))), median_speeds))
                 
 
-                print('Median:', median_speed_new)
         cv2.imshow("picam", frame if not recording else frame_with_flow)
         if cv2.waitKey(1) & 0xFF == ord('f'):
             cv2.imwrite(f'calibration_images/image_{i}.png', frame)
