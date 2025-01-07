@@ -7,9 +7,17 @@ import copy
 from picamera2 import Picamera2
 
 def eval_state(frame:np.array, Harris:bool, PwSM:Password_state_machine):
-    _, corners = corners_detector.main(frame,Harris)
+    image, corners = corners_detector.main(frame,Harris)
+    cv2.imshow("continue with following image (y/n)", image)
+    running = True
+    while running:
+        if cv2.waitKey(1) & 0xFF == ord('y'):
+            running = False
+        if cv2.waitKey(1) & 0xFF == ord('n'):
+            return
     tag = PwSM.get_tag(len(corners))
-    tag = PwSM.evaluate(tag)
+    PwSM.evaluate(tag)
+
 
 
 def stream_video():
@@ -30,7 +38,7 @@ def stream_video():
         if cv2.waitKey(1) & 0xFF == ord('h'):
             Harris = True
             eval_state(frame, Harris, PwSM)
-        if cv2.waitKey(1) & 0xFF == ord('q'):
+        if cv2.waitKey(1) & 0xFF == ord('s'):
             Harris = False
             eval_state(frame, Harris, PwSM)
 
