@@ -89,6 +89,7 @@ def stream_video():
             qualityLevel = 0.3
             minDistance = 7
             blockSize = 7
+            mask = np.zeros_like(frame)
 
             # Use the function goodFeaturesToTrack to detect the points of interest
             p0 = cv2.goodFeaturesToTrack(prev_gray, mask=mask, maxCorners=maxCorners, qualityLevel=qualityLevel, minDistance=minDistance, blockSize=blockSize)
