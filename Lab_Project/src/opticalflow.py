@@ -5,6 +5,8 @@ import copy
 import numpy as np
 import time
 
+from embed_graph import embed_graph_on_image
+
 ### Configuración del flujo óptico
 winSize=(15, 15)
 maxLevel=2
@@ -53,7 +55,7 @@ def stream_video():
                 prev_gray = frame_gray.copy()  # Copy the current frame to the previous frame
                 p0 = good_new.reshape(-1, 1, 2)  # Update the points to track
         
-                frame_with_flow = cv2.add(input_frame, mask)
+                frame_with_flow = cv2.add(input_frame, mask) - background_image
 
                 # SPEED CHECK
                 optical_flow_points = np.array(good_new) - np.array(good_old)
@@ -76,6 +78,7 @@ def stream_video():
             break
         if cv2.waitKey(1) & 0xFF == ord('s'):
             recording = True
+            background_image = frame
             print('RECORDING STARTED')
             frame = picam.capture_array()
             frames.append(frame)
