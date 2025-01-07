@@ -38,7 +38,7 @@ def embed_graph_on_image(image: np.ndarray, data: list,
 
     # Embed the graph in the original image
     x, y = position
-    overlay = image.copy()
+    overlay = image
     overlay[y:y+size[1], x:x+size[0]] = graph_img
 
     # Ensure the graph fits in the image boundaries

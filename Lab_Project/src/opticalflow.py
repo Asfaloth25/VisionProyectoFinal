@@ -57,7 +57,7 @@ def stream_video():
                 prev_gray = frame_gray.copy()  # Copy the current frame to the previous frame
                 p0 = good_new.reshape(-1, 1, 2)  # Update the points to track
         
-                frame_with_flow = cv2.add(input_frame, mask) - background_image
+                frame_with_flow = cv2.add(input_frame, mask)
 
                 # SPEED CHECK
                 optical_flow_points = np.array(good_new) - np.array(good_old)
@@ -66,7 +66,7 @@ def stream_video():
                 median_speeds.append(sorted_flows[len(sorted_flows)//2]) # the median speed of the interest points
                 median_accelerations.append(median_speeds[-1]-median_speeds[-2] if len(median_speeds) >= 2 else 0)
 
-                frame_with_flow = embed_graph_on_image(frame_with_flow, zip((i for i in range(len(frames))), median_speeds))
+                frame_with_flow = embed_graph_on_image(frame_with_flow, median_speeds)
                 
 
         cv2.imshow("picam", frame if not recording else frame_with_flow)
@@ -94,7 +94,6 @@ def stream_video():
             qualityLevel = 0.3
             minDistance = 7
             blockSize = 7
-            mask = np.zeros_like(frame)
 
             # Use the function goodFeaturesToTrack to detect the points of interest
             p0 = cv2.goodFeaturesToTrack(prev_gray, mask=mask, maxCorners=maxCorners, qualityLevel=qualityLevel, minDistance=minDistance, blockSize=blockSize)
