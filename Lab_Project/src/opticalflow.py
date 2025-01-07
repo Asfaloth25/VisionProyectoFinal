@@ -5,7 +5,7 @@ import copy
 import numpy as np
 import time
 
-from embed_graph import embed_graph_on_image
+from Lab_Project.src.plot_values import *
 
 ### Configuración del flujo óptico
 winSize=(15, 15)
@@ -28,7 +28,16 @@ def stream_video():
     median_accelerations = []
     delta_time = time.time()
     fps = 10
-    median_speed_new = [0,0]
+
+    # Initialize Matplotlib
+    plt.ion()  # Enable interactive mode
+    fig, ax = plt.subplots()
+    ax.set_title("Real-Time Graph")
+    ax.set_xlabel("Time")
+    ax.set_ylabel("Value")
+    line, = ax.plot([], [], 'g-', label="Data")
+    ax.legend()
+
     while True:
         delta_time = time.time() - delta_time
         if delta_time <= 1/fps:
@@ -66,7 +75,13 @@ def stream_video():
                 median_speeds.append(sorted_flows[len(sorted_flows)//2]) # the median speed of the interest points
                 median_accelerations.append(median_speeds[-1]-median_speeds[-2] if len(median_speeds) >= 2 else 0)
 
-                frame_with_flow = embed_graph_on_image(frame_with_flow, zip((i for i in range(len(frames))), median_speeds))
+                graph_data = median_speeds[-100:]  # Keep only the last 100 points
+
+                # Update the Matplotlib graph
+                update_real_time_graph(graph_data, ax, line)
+
+
+                # frame_with_flow = embed_graph_on_image(frame_with_flow, zip((i for i in range(len(frames))), median_speeds))
                 
 
         cv2.imshow("picam", frame if not recording else frame_with_flow)
