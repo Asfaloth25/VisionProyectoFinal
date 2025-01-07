@@ -1,0 +1,36 @@
+1) Offline Camera Calibration
+    Resulting parameters will be included in the report
+
+2) security sistem:
+    a) Pattern Detection
+
+    b) information extraction
+        Password based on Pattern Detection (ej. circle -> triangle -> line)
+
+3) Main function
+    a) Tracker
+        Algorithm explanation must be included in the report
+    
+    b) Extra
+        Aditional functionalities
+
+minimal modules:
+    Video output
+    Calibration
+    At least one Patten Detection
+    Secuence decodificator
+    Tracker
+
+Extra:
+    optimized code
+    decent fps
+    real time
+
+
+report content
+    1) Camera Calibration parameters
+    2) explanation of Tracker algorithm
+    3) Block diagram
+    4) image transformation process (images of all steps)
+
+
