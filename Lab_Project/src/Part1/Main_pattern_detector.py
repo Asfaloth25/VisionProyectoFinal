@@ -15,7 +15,7 @@ def eval_state(frame:np.array, Harris:bool, PwSM:Password_state_machine):
             running = False
         if cv2.waitKey(1) & 0xFF == ord('n'):
             return
-    tag = PwSM.get_tag(len(corners))
+    tag = PwSM.get_tag(corners)
     PwSM.evaluate(tag)
 
 
@@ -49,3 +49,7 @@ def stream_video():
             Password = True
     
     cv2.destroyAllWindows()
+
+
+if __name__ == '__main__':
+    stream_video()

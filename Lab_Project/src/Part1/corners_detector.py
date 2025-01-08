@@ -19,6 +19,7 @@ def harris_corner_detector(image: np.array, blockSize: int, ksize: int, k: float
     
     # Input image to Harris corner detector should be float32 type
     gray = np.float32(gray)
+    gray = cv2.GaussianBlur(gray, (9,9), 0)
     
     # Apply Harris corner detection
     harris = cv2.cornerHarris(gray, blockSize, ksize,k)
@@ -29,7 +30,7 @@ def harris_corner_detector(image: np.array, blockSize: int, ksize: int, k: float
     # Threshold for an optimal value of 1% of maximal R value
     threshold = 0.01*harris.max()
 
-    return [harris>threshold]
+    return harris>threshold
 
 
 # get shi tomasi corner detector from lab 3 part A
@@ -59,6 +60,7 @@ def shi_tomasi_corner_detection(image: np.array, maxCorners: int, qualityLevel:f
     corners = cv2.goodFeaturesToTrack(gray, maxCorners, qualityLevel, minDistance)
 
     # Corner coordinates conversion to integers
+    return corners
     
 def paint_shi_tomasi(corners:list ,image: np.array, corner_color: tuple, radius: int):
     corners = np.intp(corners)
@@ -76,11 +78,11 @@ def paint_harris(image, harris):
 
 def main(image: np.array, harris: bool):
     if harris:
-        corners = harris_corner_detector(image, blockSize = 2, ksize = 5, k = 0.1)
+        corners = harris_corner_detector(image, blockSize = 2, ksize = 9, k = 0.1)
         painted_image = paint_harris(image,corners)
         return painted_image, len(corners)
     else:
         corners = shi_tomasi_corner_detection(image, maxCorners = 100, qualityLevel = 0.1, minDistance = 4)
-        painted_image = painted_image( corner_color = (255, 0, 255), radius = 4)
+        painted_image = paint_shi_tomasi(corners, image, corner_color = (255, 0, 255), radius = 4)
         return painted_image, len(corners)
 
