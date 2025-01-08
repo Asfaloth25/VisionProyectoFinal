@@ -82,7 +82,8 @@ def main(image: np.array, harris: bool):
         painted_image = paint_harris(image,corners)
         return painted_image, len(corners)
     else:
-        corners = shi_tomasi_corner_detection(image, maxCorners = 100, qualityLevel = 0.1, minDistance = 4)
+
+        corners = shi_tomasi_corner_detection(image, maxCorners = 10, qualityLevel = 0.1, minDistance = 20)
         painted_image = paint_shi_tomasi(corners, image, corner_color = (255, 0, 255), radius = 4)
         return painted_image, len(corners)
 

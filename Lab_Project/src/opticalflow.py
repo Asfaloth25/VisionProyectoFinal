@@ -71,12 +71,12 @@ def stream_video():
 
                 # SPEED CHECK
                 optical_flow_points = np.array(good_new) - np.array(good_old)
-                print(optical_flow_points)
+                # print(optical_flow_points)
                 sorted_flows = sorted(optical_flow_points, key = lambda x: sum(x**2)) # the speed of each point, sorted by euclidean distance to the origin (length)
                 median_speeds.append(sorted_flows[len(sorted_flows)//2]) # the median speed of the interest points
                 median_accelerations.append(median_speeds[-1]-median_speeds[-2] if len(median_speeds) >= 2 else 0)
 
-                graph_data = [sum(x**2)**(1/2) for x in median_speeds[-100:]]  # Keep only the last 100 points
+                graph_data = [x[0] for x in median_speeds[-100:]]  # Keep only the last 50 points sum(x**2)**(1/2)
 
                 # Update the Matplotlib graph
                 update_real_time_graph(graph_data, ax, line)
