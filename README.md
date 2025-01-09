@@ -1,4 +1,4 @@
-# Real-time movement tracker with external information with Raspberry Pi
+# Real-time movement tracker with external information using Raspberry Pi
 
 ## Description:
 This project can be separated in to three main modules:
